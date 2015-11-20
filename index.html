@@ -1,19 +1,86 @@
+<!DOCTYPE html>
 <html>
-                <title>
-               Welcome to my first page!
-                 </title>
-        </head>
-        <body>
-                <p>
-Hello,I'm Allysa lin.<br>                
-From ThoughtWorks,we learn a lot of things~<br>
-And I set up my first
- github pages,see here
-		<a href="http://allysalin.github.io/">
-                Let's learn together~~<br>
-                </a>
-                Lastly,Share you a singer I like.Guess who he is..<br>
-		<img src="Ed Sheeran1 thinking out loud.jpg" width="500" height="600">
-		</p>
-        </body>
+<head>
+	<meta charset="UTF-8">
+	<title>My Bookmarks</title>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+
+</head>
+<body>
+	<div class="container">
+		<input id="search" type="text">
+
+		<ul>
+			<!-- <li class="list-content">
+				<div class="list-title">
+					连线杂志：Windows<span>操作系统</span>发展简史(组图) - Linux宝库 - 全球最火中文开源门户
+				</div>
+				<div class="list-footer">
+					created @ 2013-12-17
+				</div>
+			</li> -->
+		</ul>
+	</div>
+
+	
+</body>
+<script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="lodash.js"></script>
+<script type="text/javascript">
+	var bookmark = new Array();
+
+	$(function(){
+
+		$.get("bookmarks.json", function(data){
+		//alert(String(data));
+	  	//var parsedJson = jQuery.parseJSON(data);
+		//alert(parsedJson.users); 
+
+			$.each(data,function(idx,item){ 
+				//alert(item.username);
+				bookmark.push(item)
+
+				//console.log(item.title);
+			});
+						
+									
+
+			});
+
+
+	});
+
+	    $("input").keyup(function(){
+	    	$("ul").html("");
+
+	    	var reg = new RegExp($("input").val());
+
+	    	console.log($("input").val());
+	    	if($("input").val()){
+	    		$.each(bookmark,function(idx,item){ 
+				//alert(item.username);
+				//bookmark.push(item)
+				var r = (item.title).match(reg);  
+				if(r != null)
+				{
+					//console.log(item.title);
+					//console.log(r);
+					var date = new Date(item.created*1000);
+
+					var title = item.title;
+					title = title.replace(reg,'<span>'+$("input").val()+'</span>');
+					var created = 'created @ ' +date.getFullYear()+ ' - ' + date.getMonth() +' - ' + date.getDate();
+
+					$("ul").append('<li class="list-content"><div class="list-title">'+ title +'</div><div class="list-footer">'+ created +'</div></li>');
+				}
+					//console.log(date.getFullYear()+ ' - ' + date.getMonth() +' - ' + date.getDate());
+				});	
+	    	}
+		    
+
+
+	    });
+	
+
+</script>
 </html>
